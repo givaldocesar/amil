@@ -1,4 +1,4 @@
-# Assistente de Mapa Interativo com Leaflet (AMIL)
+# AMIL - Assistente de Mapa Interativo com Leaflet
 Um assistente para gerar mapas interativos no navegador utilizando Leaflet.
 
 Este Plugin fornece opções para a criação de um webmap utilizando a plataforma Leaflet.
