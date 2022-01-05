@@ -1,0 +1,149 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.title {
+    box-sizing: border-box;
+	background: black;
+    padding: 5px 5px;
+    height: 5vh;
+}
+
+.title h1{
+	color: #f2f2f2;
+	text-align: center;
+	overflow: hidden;
+	margin: 0px;
+}
+
+.maintab {
+    box-sizing: border-box; 
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #000;
+    height: 5vh;
+}
+
+.maintab button {
+    box-sizing: border-box; 
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    color: white;
+    height: 5vh;
+}
+
+.maintab button:hover {
+    background-color: #ddd;
+}
+
+.maintab button.active {
+    background-color: #4682B4;
+}
+
+.mainTabContent {
+    box-sizing: border-box;
+    overflow: hidden;
+    height: 90vh;
+}
+
+#map {
+    height: 90vh;
+    width: 100%;
+}
+
+.tab {
+    box-sizing: border-box; 
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    height: 5vh;
+}
+
+.tab button {
+    box-sizing: border-box; 
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    height: 5vh;
+}
+
+.tab button:hover {
+    background-color: #ddd;
+}
+
+.tab button.active {
+    background-color: #ccc;
+}
+
+.tabcontent {
+    box-sizing: border-box; 
+    display: none;
+    border: 1px solid #ccc;
+    border-top: none;
+    overflow-x:auto; 
+    overflow-y:auto; 
+    max-height: 85vh;
+}
+
+.legend {
+    background: rgba(255,255,255,0.8);
+    line-height: 18px;
+    color: #555;
+    padding: 0px 5px;
+}
+
+.legend dt {
+    margin: 5px 0px;
+    font-weight: bold;
+}
+
+.legend dd {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.legendIcon {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    margin-left: 5px;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #ddd;
+    margin: 0px;
+    padding: 0px;
+}
+
+th, td {
+    padding: 10px 10px;
+    font-size: 15px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover{
+	background-color: #87CEEB;
+	color: black;
+}
+
+th {
+    text-align: center;
+	background-color: black;
+	color: white;
+	}
