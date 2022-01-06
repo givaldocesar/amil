@@ -26,7 +26,7 @@ import os, re, shutil
 
 from qgis import processing
 from qgis.core import *
-from qgis.gui import QgsColorButton
+from qgis.gui import *
 from qgis.PyQt import uic
 from qgis.PyQt.QtWidgets import *
 from qgis.PyQt.QtGui import QColor
@@ -118,10 +118,11 @@ class PreviewWindow(QMainWindow):
         self.setCentralWidget(self.page)
 
 class AmilDialog(QDialog, FORM_CLASS):    
-    def __init__(self, parent=None):
+    def __init__(self, iface, parent=None):
         super(AmilDialog, self).__init__(parent)
         self.setupUi(self)      
-
+        self.iface = iface
+        
         # Get Project Object
         self.project = QgsProject.instance()
         self.project.layersAdded.connect(self.addLayersToList)
@@ -191,6 +192,8 @@ class AmilDialog(QDialog, FORM_CLASS):
 
                 self.layers[-1].rendererChanged.connect(self.symbologyChanged)
                 count += 1
+        
+        self.status.setText(f'{len(layers)} camadas adicionada(s).')
     
     def removeLayersFromList(self, layersID):
         for layerID in layersID:
@@ -202,6 +205,8 @@ class AmilDialog(QDialog, FORM_CLASS):
         
         if self.layers:
             self.layersList.setCurrentRow(0)
+        
+        self.status.setText(f'{len(layersID)} camadas removida(s).')
     
     def upLayer(self):
         row = self.layersList.currentRow()
@@ -638,6 +643,8 @@ class AmilDialog(QDialog, FORM_CLASS):
         
         if layer.order == int(self.orderText.text()):
             self.updateLayerSymbology(self.layersList.item(layer.order))
+        
+        self.status.setText(f'A camada {layer.layerName} teve a simbologia alterada.')
       
     def stateBaseLayerChanged(self, state, text):
         idx = self.standardBase.findText(text, Qt.MatchExactly)
@@ -685,6 +692,9 @@ class AmilDialog(QDialog, FORM_CLASS):
           
     def export(self):
         if self.folderDirectory.text():
+            steps = 8 + len(self.layers)
+            self.progressBar.setMaximum(steps)
+            
             page = WebPage(self.title.text())
             mapJS = Map()
             attributesTableJS = AttributesTable()
@@ -694,18 +704,24 @@ class AmilDialog(QDialog, FORM_CLASS):
             page.head.code += '\n\t\t<!-- Caminhos paras os dados das camadas -->\n'
             
             # ADD BASE LAYERS TO MAP
+            self.status.setText('Adicionando camadas de base...')
             baseLayers = {GOOGLE_STREET: self.googleStreet.isChecked(),
                           GOOGLE_SATELLITE: self.googleSatellite.isChecked(),
                           GOOGLE_HYBRID: self.googleHybrid.isChecked()}
             mapJS.addBaseLayers(baseLayers, self.standardBase.currentText())
+            self.progressBar.setValue(1)
 
             # CREATE LAYERSDATA DIRECTORY
+            self.status.setText('Criando diretório de dados...')
             os.makedirs(os.path.join(self.folderDirectory.text(), self.title.text(), 'data'), exist_ok=True)
+            self.progressBar.setValue(2)
             
             # ADD PROJECT LAYERS TO MAP
             for layer in self.layers:
-                if layer.enabled:
-                    name = self.cleanName(layer.layerName)
+                self.status.setText(f'Adicionando camada {layer.layerName} ao mapa...')
+                if layer.enabled:                  
+                    # ENABLE LAYERS NAME BEGIN WITH NUMBERS
+                    name = '_' + self.cleanName(layer.layerName)
                     
                     # CREATE LAYER DATA
                     self.createLayerData(name, layer.id)
@@ -722,39 +738,54 @@ class AmilDialog(QDialog, FORM_CLASS):
                     
                     # ADD LAYER TO MAP
                     mapJS.addLayerMap(name, layer)
+                self.progressBar.setValue(self.progressBar.value() + 1)
                 
             # ADD LEGEND TO MAP
             if self.legendBox.isChecked():
+                self.status.setText('Adicionando legenda...')
                 mapJS.createLegendMap(self.legendPosition.currentText())
+                self.progressBar.setValue(self.progressBar.value() + 1)
             
             if self.controlLayersBox.isChecked():
+                self.status.setText('Adicionando controle de camadas...')
                 mapJS.createLayersControl(self.controlPosition.currentText())
+                self.progressBar.setValue(self.progressBar.value() + 1)
             
             # CREATE DIRECTORIES E EXPORT FILES
             leafletPath = os.path.join(QgsApplication.instance().qgisSettingsDirPath(), 'python', 'plugins', 'amil', 'leaflet')
             scriptsPath = os.path.join(QgsApplication.instance().qgisSettingsDirPath(), 'python', 'plugins', 'amil', 'javascript')
             
+            self.status.setText('Copiando Leaflet e Javascript...')
             shutil.copytree(leafletPath, os.path.join(self.folderDirectory.text(), self.title.text(), 'leaflet'), copy_function=shutil.copy2, dirs_exist_ok=True)
             shutil.copytree(scriptsPath, os.path.join(self.folderDirectory.text(), self.title.text(), 'javascript'), copy_function=shutil.copy2, dirs_exist_ok=True)
+            self.progressBar.setValue(self.progressBar.value() + 1)
             
+            self.status.setText('Gerando HTML...')
             htmlPath = os.path.join(self.folderDirectory.text(), self.title.text(), 'index.html')
             htmlFile = open(htmlPath, 'w')
             htmlFile.write(page.html())
             self.previewWindow.page.settings().clearMemoryCaches()
             self.previewWindow.page.load(QUrl.fromLocalFile(htmlPath))
+            self.progressBar.setValue(self.progressBar.value() + 1)
+                       
+            self.status.setText('Gerando Javascript do Mapa...')
+            mapFile = open(os.path.join(self.folderDirectory.text(), self.title.text(), 'javascript', 'map.js'), 'w')
+            mapFile.write(mapJS.code(self.showHideItem.isChecked()))
+            self.progressBar.setValue(self.progressBar.value() + 1)
             
+            self.status.setText('Gerando Javascript das Tabelas de Atributo...')
+            attributesFile = open(os.path.join(self.folderDirectory.text(), self.title.text(), 'javascript', 'attributes.js'), 'w')
+            attributesFile.write(attributesTableJS.code())
+            self.progressBar.setValue(self.progressBar.value() + 1)
+                      
             if self.showPreview.isChecked():               
                 self.previewWindow.setFocus(Qt.ActiveWindowFocusReason)
                 self.previewWindow.activateWindow()
                 self.previewWindow.show()
-            else:
-                QMessageBox.information(self.previewWindow, 'Informação', f'Os arquivos foram exportados para:\n>>> {self.folderDirectory.text()}')
-                    
-            mapFile = open(os.path.join(self.folderDirectory.text(), self.title.text(), 'javascript', 'map.js'), 'w')
-            mapFile.write(mapJS.code(self.showHideItem.isChecked()))
-            
-            attributesFile = open(os.path.join(self.folderDirectory.text(), self.title.text(), 'javascript', 'attributes.js'), 'w')
-            attributesFile.write(attributesTableJS.code())
+                
+            self.iface.messageBar().pushMessage("Concluído", f'Projeto <b>{self.title.text()}</b> exportado para <b>{self.folderDirectory.text()}</b>.', level=Qgis.Success, duration=10)
+            self.status.setText(f'Projeto <b>{self.title.text()}</b> exportado para <b>{self.folderDirectory.text()}</b>.')
+            self.progressBar.setValue(steps)
         else:
             QMessageBox.information(self, 'Informação', f'Selecione um local para salvar o webmap.')
         

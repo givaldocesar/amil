@@ -1,4 +1,5 @@
 from .objects import POINT, LINE, POLYGON, SINGLE
+from qgis.PyQt.QtWidgets import *
 
 GOOGLE_STREET = 'Google Street'
 GOOGLE_SATELLITE = 'Google Satellite'
@@ -83,9 +84,9 @@ class Map:
     def translateExpression(expression):
         translated = ''
         splitted = expression.split(' ')
-
         while splitted:
             word = splitted[0]
+
             if word:
                 # Verifica se é um atributo
                 if word[0] == '"':
@@ -148,7 +149,8 @@ class Map:
                 else:
                     translated += ' ' + word
 
-            splitted.remove(word)
+            if word in splitted:
+                splitted.remove(word)
                      
         return translated
     
@@ -307,7 +309,7 @@ class Map:
             self.layers += '\t\t\t}' 
             
         self.layers += '\n}).addTo(map);\n'
-        self.layers += f'overlayMaps[\'{layerName}\'] = {layerName};\n\n'
+        self.layers += f'overlayMaps[\'{layerName[1:]}\'] = {layerName};\n\n'
         
     def createLegendMap(self, legendPosition):
         legendPosition = self.translatePosition(legendPosition)
