@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>800</height>
+    <width>913</width>
+    <height>832</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,18 +18,18 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1000</width>
-    <height>800</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1000</width>
-    <height>800</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>Assistente de Mapa Interativo Leaflet (v1.1)</string>
+   <string>Assistente de Mapa Interativo Leaflet (v1.1.1)</string>
   </property>
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
@@ -120,100 +120,102 @@
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <layout class="QHBoxLayout" name="layersLayout">
-         <item>
-          <widget class="QGroupBox" name="layersBox">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>1</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>Arial</family>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="title">
-            <string>Camadas do Projeto</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout">
-            <property name="leftMargin">
-             <number>3</number>
+        <widget class="QGroupBox" name="layersBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>1</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>350</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="title">
+          <string>Camadas do Projeto</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
+          <item>
+           <widget class="QListWidget" name="layersList">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
             </property>
-            <property name="topMargin">
-             <number>3</number>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lista com as camadas disponiveis, a ordem das camadas é definida aqui. Utiliza as setas ao lado para alterar a ordem.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
-            <property name="rightMargin">
-             <number>3</number>
-            </property>
-            <property name="bottomMargin">
-             <number>3</number>
-            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QListWidget" name="layersList">
-              <property name="font">
-               <font>
-                <family>Arial</family>
-                <pointsize>10</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
+             <widget class="QToolButton" name="upLayerBTN">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
               </property>
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lista com as camadas disponiveis, a ordem das camadas é definida aqui. Utiliza as setas ao lado para alterar a ordem.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="arrowType">
+               <enum>Qt::UpArrow</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="downLayerBTN">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="arrowType">
+               <enum>Qt::DownArrow</enum>
               </property>
              </widget>
             </item>
            </layout>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item>
-          <widget class="QToolButton" name="upLayerBTN">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="arrowType">
-            <enum>Qt::UpArrow</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="downLayerBTN">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="arrowType">
-            <enum>Qt::DownArrow</enum>
-           </property>
-          </widget>
-         </item>
-        </layout>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="layerConfigBox">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>1</horstretch>
+           <horstretch>2</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
@@ -437,6 +439,9 @@
                 <property name="text">
                  <string/>
                 </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
               <item row="0" column="1">
@@ -603,6 +608,18 @@
               </item>
               <item row="2" column="0" colspan="2">
                <widget class="QGroupBox" name="symbolsBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>1</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
                 <property name="title">
                  <string>Símbolos</string>
                 </property>
@@ -818,7 +835,8 @@
             <item row="1" column="0" colspan="2">
              <widget class="QCheckBox" name="showHideItem">
               <property name="text">
-               <string>Mostar/Ocultar Items da Legenda ao desativar camada</string>
+               <string>Mostar/Ocultar Items da Legenda ao
+desativar camada</string>
               </property>
               <property name="checked">
                <bool>true</bool>

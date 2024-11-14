@@ -61,6 +61,7 @@ class TextBox(QLineEdit):
     def setCurrentText(self, text):
         self.setText(text)
 
+
 class FilterBox(QComboBox):
     valueChanged = pyqtSignal(str, int)
     
@@ -77,7 +78,7 @@ class DoubleBox(QDoubleSpinBox):
         super().__init__(parent)
         self.key = key  
         self.setMinimum(0.0)
-        self.setFixedWidth(75)
+        self.setFixedWidth(95)
         self.valueChanged.connect(lambda value: self.valueUpdated.emit(value, self.key))
 
 
@@ -96,7 +97,7 @@ class ColorButton(QgsColorButton):
         super().__init__(parent)
         self.key = key
         self.setColor(color)
-        self.setFixedWidth(75)
+        self.setFixedWidth(95)
         self.colorChanged.connect(lambda color: self.colorUpdated.emit(f'{color.red()}, {color.green()}, {color.blue()}, {color.alphaF()}', self.key))
    
 
@@ -116,6 +117,7 @@ class PreviewWindow(QMainWindow):
         self.page.settings().setAttribute(QWebSettings.JavascriptCanAccessClipboard, True)
         
         self.setCentralWidget(self.page)
+
 
 class AmilDialog(QDialog, FORM_CLASS):    
     def __init__(self, iface, parent=None):
@@ -482,12 +484,13 @@ class AmilDialog(QDialog, FORM_CLASS):
         self.symbolsTable.blockSignals(True)
         self.symbolsTable.clear()
         
+        columnSize = 95
         if layer.geometry == POINT:
             self.symbolsTable.setColumnCount(7)
             self.symbolsTable.hideColumn(0)
             self.symbolsTable.setHorizontalHeaderLabels(['key', 'Opacidade', 'Tamanho', 'Larg. do Traço', 'Cor do Traço', 'Preenchimento', 'Rótulo'])
             for i in range(self.symbolsTable.columnCount()):
-                self.symbolsTable.setColumnWidth(i, 75)
+                self.symbolsTable.setColumnWidth(i, columnSize)
             
             self.symbolsTable.setRowCount(len(layer.symbology))
             
@@ -527,7 +530,7 @@ class AmilDialog(QDialog, FORM_CLASS):
             self.symbolsTable.hideColumn(0)
             self.symbolsTable.setHorizontalHeaderLabels(['key', 'Opacidade', 'Larg. do Traço', 'Cor do Traço', 'Rótulo'])
             for i in range(self.symbolsTable.columnCount()):
-                self.symbolsTable.setColumnWidth(i, 75)
+                self.symbolsTable.setColumnWidth(i, columnSize)
             self.symbolsTable.setRowCount(len(layer.symbology))
             
             count = 0
@@ -557,7 +560,7 @@ class AmilDialog(QDialog, FORM_CLASS):
             self.symbolsTable.hideColumn(0)
             self.symbolsTable.setHorizontalHeaderLabels(['key', 'Opacidade', 'Larg. do Traço', 'Cor do Traço', 'Preenchimento', 'Rótulo'])
             for i in range(self.symbolsTable.columnCount()):
-                self.symbolsTable.setColumnWidth(i, 75)
+                self.symbolsTable.setColumnWidth(i, columnSize)
             self.symbolsTable.setRowCount(len(layer.symbology))
             
             count = 0
@@ -752,14 +755,18 @@ class AmilDialog(QDialog, FORM_CLASS):
                 self.progressBar.setValue(self.progressBar.value() + 1)
             
             # CREATE DIRECTORIES E EXPORT FILES
-            leafletPath = os.path.join(QgsApplication.instance().qgisSettingsDirPath(), 'python', 'plugins', 'amil', 'leaflet')
-            scriptsPath = os.path.join(QgsApplication.instance().qgisSettingsDirPath(), 'python', 'plugins', 'amil', 'javascript')
+            currentDir = QFileInfo(__file__).absoluteDir().absolutePath()
+            leafletPath = os.path.join(currentDir, 'leaflet')
+            scriptsPath = os.path.join(currentDir, 'javascript')
             
             self.status.setText('Copiando Leaflet e Javascript...')
-            shutil.copytree(leafletPath, os.path.join(self.folderDirectory.text(), self.title.text(), 'leaflet'), copy_function=shutil.copy2, dirs_exist_ok=True)
-            shutil.copytree(scriptsPath, os.path.join(self.folderDirectory.text(), self.title.text(), 'javascript'), copy_function=shutil.copy2, dirs_exist_ok=True)
+            try:
+                shutil.copytree(leafletPath, os.path.join(self.folderDirectory.text(), self.title.text(), 'leaflet'), copy_function=shutil.copy2)
+                shutil.copytree(scriptsPath, os.path.join(self.folderDirectory.text(), self.title.text(), 'javascript'), copy_function=shutil.copy2)
+            except FileExistsError:
+                pass
             self.progressBar.setValue(self.progressBar.value() + 1)
-            
+
             self.status.setText('Gerando HTML...')
             htmlPath = os.path.join(self.folderDirectory.text(), self.title.text(), 'index.html')
             htmlFile = open(htmlPath, 'w')

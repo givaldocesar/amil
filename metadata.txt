@@ -1,8 +1,8 @@
 [general]
 name=AMIL-Assistente de Mapa Interativo Leaflet
-qgisMinimumVersion=3.0
+qgisMinimumVersion=3.10
 description=Um assistente para criar mapas interativos no navegador utilizando Leaflet
-version=1.1
+version=1.1.1
 author=Givaldo Cesar
 email=givaldocesar@live.com
 
@@ -15,6 +15,8 @@ repository=https://github.com/givaldocesar/amil
 
 hasProcessingProvider=no
 changelog=
+	1.1.1 -	Correção de pequenos erros e bugs.
+
 	1.1 - 	Correção do erro de exportação de camadas que possuiam simbologia diferente de símbolo simples. Adição de uma barra de status, barra de progresso e notificações de push.
 			
 	1.0 - 	Versão Estável.
