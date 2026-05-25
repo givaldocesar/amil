@@ -1,11 +1,12 @@
 import os
 from qgis.core import *
+from ..tr import tr
 
 def export_layer_to_js(layer_id, output_dir):
     layer = QgsProject.instance().mapLayer(layer_id)
     
     if not layer:
-        print(f"Aviso: Camada {layer_id} não encontrada no projeto.")
+        print(tr("Aviso: Camada {} não encontrada no projeto.").format(layer_id))
         return False
 
     data_dir = os.path.join(output_dir, "data")
@@ -41,5 +42,8 @@ def export_layer_to_js(layer_id, output_dir):
         os.remove(gjson_temp_path)
         return True
     else:
-        print(f"Erro ao exportar a camada {layer.name()}: {error_string}")
+        print(tr("Erro ao exportar a camada {layer_name}: {error}").format(
+            layer_name=layer.name(),
+            error=error_string
+        ))
         return False

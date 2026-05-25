@@ -1,21 +1,23 @@
 import os
 from .leaflet_engine import *
-from .create_openlayers_template import *
+from .openlayers_engine import *
 from .export_layer_to_js import *
+from ..tr import tr
 
 def map_web_engine(configs):
     """
     Motor centralizador de exportação do AMIL 2.0.
     Recebe a configuração completa da UI e gera a estrutura do WebGIS.
     """
+
     output_dir = configs.get("output_dir")
     engine = configs.get("engine", "openlayers")
     mode = configs.get("modo", "online")
     layers = configs.get("layers", [])
-
+    
     # 1. Validação básica da pasta
     if not output_dir:
-        print("Erro: Nenhuma pasta de saída foi selecionada.")
+        print(tr("Erro: Nenhuma pasta de saída foi selecionada."))
         return False
 
     if not os.path.exists(output_dir):
@@ -26,7 +28,7 @@ def map_web_engine(configs):
         name = layer.get("name")
         success = export_layer_to_js(layer_id, output_dir)
         if not success:
-            print(f"Falha ao processar os dados da camada {name}.")
+            print(tr("Falha ao processar os dados da camada {}.").format(name))
 
     html = ""
     if engine == "openlayers":
@@ -39,5 +41,5 @@ def map_web_engine(configs):
     with open(index_path, "w", encoding="utf-8") as f:
         f.write(html)
 
-    return f"Sucesso! Mapa Web gerado em: {index_path}"
+    return tr("Sucesso! Mapa Web gerado em: {}").format(index_path)
         

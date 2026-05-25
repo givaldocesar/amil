@@ -1,4 +1,5 @@
 import os
+from ...tr import tr
 
 def create_leaflet_layers_script(configs):
     output_dir = configs.get("output_dir")
@@ -12,29 +13,32 @@ def create_leaflet_layers_script(configs):
     for layer in configs.get("layers"):
         layer_id = layer.get("layer_id")
         name = layer.get("layer_name")
+        is_point = layer.get("is_point", False)
+        is_polygon = layer.get("is_polygon", False)
         
         style = layer.get("style", {})
         stroke_color = style.get("stroke_color", "#3388ff")
         stroke_width = style.get("stroke_width", 1.0)
         fill_color = style.get("fill_color", "#3388ff")
-        is_polygon = style.get("is_polygon", False)
+        radius = style.get("radius", 6.0)
 
-        js.append(f"\n// Camada: {name}")
+        js.append(tr("\n// Camada: {}").format(name))
         js.append(f"const style_{layer_id} = {{")
         js.append(f"\tcolor: '{stroke_color}',")
         js.append(f"\tweight: {stroke_width},")
         js.append(f"\topacity: 1.0,")
-        
-        if is_polygon:
-            js.append(f"\tfillColor: '{fill_color}',")
-            js.append(f"\tfillOpacity: 0.6")
-        else:
-            js.append(f"\tfill: false")
-            
+        js.append(f"\tfillColor: '{fill_color}',")
+        js.append(f"\tfillOpacity: 0.6,")
+        js.append(f"\tradius: {radius}")
         js.append("};\n")
 
         js.append(f"const layer_{layer_id} = L.geoJSON(data_{layer_id}, {{")
-        js.append(f"    style: style_{layer_id}")
+        if is_point:
+            js.append(f"\tpointToLayer: function(feature, latlng) {{")
+            js.append(f"\t\treturn L.circleMarker(latlng, style_{layer_id});")
+            js.append(f"\t}}")
+        else:
+            js.append(f"\tstyle: style_{layer_id}")
         js.append(f"}}).addTo(map);\n")
 
         js.append(f"if (typeof layerControl !== 'undefined') {{")

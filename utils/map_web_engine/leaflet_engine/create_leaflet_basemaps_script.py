@@ -1,4 +1,5 @@
 import os
+from ...tr import tr
 from ..basemaps_providers import BASEMAP_PROVIDERS
 
 def create_leaflet_basemaps_script(configs):
@@ -8,7 +9,7 @@ def create_leaflet_basemaps_script(configs):
     scripts_dir = os.path.join(output_dir, "scripts")
     os.makedirs(scripts_dir, exist_ok=True)
     
-    js = ["//--- Definições de Mapas Base---"]
+    js = [tr("//--- Definições de Mapas Base---")]
     obj_basemaps = []
     first_map = True
 

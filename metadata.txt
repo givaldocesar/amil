@@ -1,9 +1,9 @@
 [general]
-name=AMIL-Assistente de Mapa Interativo Leaflet
+name=AMIL-Aplicação para Mapas Interativos Locais
 qgisMinimumVersion=3.10
-description=Um assistente para criar mapas interativos no navegador utilizando Leaflet
-version=1.1.1
-author=Givaldo Cesar
+description=Um assistente para criar mapas interativos no navegador utilizando Leaflet/Openlayers
+version=2.0
+author=Givaldo Cavalcanti
 email=givaldocesar@live.com
 
 about=Cria mapas interativos que podem ser abertos no navegador através das camadas vetoriais disponíveis.
@@ -22,7 +22,7 @@ changelog=
 	1.0 - 	Versão Estável.
 			
 
-tags=python leaflet browser maps
+tags=python leaflet openlayers browser maps
 
 homepage=https://github.com/givaldocesar/amil
 category=Web

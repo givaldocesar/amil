@@ -29,7 +29,7 @@ class AmilDialog(QDialog, FORM_CLASS):
         #ARROW UP LAYERS
         icon_up = QgsApplication.getThemeIcon("/mActionArrowUp.svg")
         self.up_layer_btn.setIcon(icon_up)
-        self.up_layer_btn.setIconSize(QSize(20, 20)) # Ajuste o tamanho se achar necessário
+        self.up_layer_btn.setIconSize(QSize(20, 20))
         self.up_layer_btn.setText("")
         self.up_layer_btn.clicked.connect(self.up_layer)
 
@@ -100,7 +100,7 @@ class AmilDialog(QDialog, FORM_CLASS):
         self.layers.blockSignals(False)
  
     def select_output_dir(self):
-        directory = QFileDialog.getExistingDirectory(self, "Selecionar Diretório de Saída")
+        directory = QFileDialog.getExistingDirectory(self, self.tr("Selecionar Diretório de Saída"))
         if directory:
             self.output_dir.setText(directory)
 
@@ -108,6 +108,7 @@ class AmilDialog(QDialog, FORM_CLASS):
         engine = "openlayers" if self.openlayers.isChecked() else "leaflet"
         mode = "offline" if self.offline.isChecked() else "online"
         output_dir = self.output_dir.text()
+        title = self.page_title.text() or QgsProject.instance().baseName() 
         
         basemaps = []
         if self.google_sat.isChecked(): basemaps.append("google_sat")
@@ -125,7 +126,8 @@ class AmilDialog(QDialog, FORM_CLASS):
             "mode": mode,
             "output_dir": output_dir,
             "basemaps": basemaps,
-            "center": [lat, long]
+            "center": [lat, long],
+            "title": title
         }
 
     def get_layers_configs(self):
@@ -146,7 +148,7 @@ class AmilDialog(QDialog, FORM_CLASS):
         global_configs["layers"] = self.get_layers_configs()
 
         if(global_configs["output_dir"] == ""):
-            QMessageBox.warning(self, "Aviso", "Por favor, selecione um diretório de saída válido.")
+            QMessageBox.warning(self, self.tr("Aviso"), self.tr("Por favor, selecione um diretório de saída válido."))
         else:
             message = map_web_engine(global_configs)
-            QMessageBox.warning(self, "Aviso", message)
+            QMessageBox.warning(self, self.tr("Aviso"), message)

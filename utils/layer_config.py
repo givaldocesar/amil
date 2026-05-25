@@ -5,6 +5,7 @@ class StyleConfig:
     stroke_color: str = "#3388FF"
     stroke_width: float = 1.0
     fill_color: str = "#3388FF75"
+    radius: float = 6.0
 
 @dataclass
 class LayerConfig:
@@ -18,3 +19,4 @@ class LayerConfig:
     style: StyleConfig = field(default_factory=StyleConfig)
 
     is_polygon: bool = False
+    is_point: bool = False
