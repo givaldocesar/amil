@@ -1,5 +1,5 @@
 import os
-from ...tr import tr
+from ...utils.tr import tr
 
 def create_leaflet_layers_script(configs):
     output_dir = configs.get("output_dir")
@@ -35,7 +35,6 @@ def create_leaflet_layers_script(configs):
                 rule += f"decimals: {attribute_config.decimals} }}"
                 popup_rules.append(rule)
         
-        js_popup_rules = "[" + ",".join(popup_rules) + "\n]"
 
         # Montando o JS
         js.append(tr("\n// Camada: {}").format(name))
@@ -44,7 +43,10 @@ def create_leaflet_layers_script(configs):
         js.append(f"map.getPane('pane_{layer_id}').style.pointerEvents = 'none';\n")
 
         # Regras POPUP
-        js.append(f"const popupRules_{layer_id} = {js_popup_rules};\n")
+        if(len(popup_rules) > 0):
+            js_popup_rules = "[" + ",".join(popup_rules) + "\n]"
+            js.append(f"const popupRules_{layer_id} = {js_popup_rules};\n")
+
         # camada
         js.append(f"const layer_{layer_id} = L.geoJSON(data_{layer_id}, {{")
         js.append(f"\tpane: 'pane_{layer_id}',")
@@ -72,21 +74,24 @@ def create_leaflet_layers_script(configs):
             js.append("\t\t});")
             js.append("\t},")
 
-        #construido o popup dinâmico
-        js.append("\tonEachFeature: function (feature, layer) {")
-        js.append(f'''\t\tlet popupContent = '<div class="amil-popup"><b>{name}</b><hr><table style="width:100%; text-align:left;">';\n''')
-        js.append(f"\t\tpopupRules_{layer_id}.forEach(function(rule) {{")
-        js.append("\t\t\tlet value = feature.properties[rule.name];\n")
-        js.append("\t\t\tif (value !== null && value !== undefined) {")
-        js.append("\t\t\t\tif (rule.is_float && typeof value === 'number') {")
-        js.append("\t\t\t\t\tvalue = value.toFixed(rule.decimals);")
-        js.append("\t\t\t\t};\n")
-        js.append("\t\t\t\tpopupContent += '<tr><th>' + rule.name + ':</th><td>' + value + '</td></tr>';")
-        js.append("\t\t\t}")
-        js.append("\t\t});\n")
-        js.append("\t\tpopupContent += '</table></div>';")
-        js.append("\t\tlayer.bindPopup(popupContent);")
-        js.append("\t}});\n")
+        if(len(popup_rules) > 0):
+            #construido o popup dinâmico
+            js.append("\tonEachFeature: function (feature, layer) {")
+            js.append(f'''\t\tlet popupContent = '<div class="amil-popup"><b>{name}</b><hr><table style="width:100%; text-align:left;">';\n''')
+            js.append(f"\t\tpopupRules_{layer_id}.forEach(function(rule) {{")
+            js.append("\t\t\tlet value = feature.properties[rule.name];\n")
+            js.append("\t\t\tif (value !== null && value !== undefined) {")
+            js.append("\t\t\t\tif (rule.is_float && typeof value === 'number') {")
+            js.append("\t\t\t\t\tvalue = value.toFixed(rule.decimals);")
+            js.append("\t\t\t\t};\n")
+            js.append("\t\t\t\tpopupContent += '<tr><th>' + rule.name + ':</th><td>' + value + '</td></tr>';")
+            js.append("\t\t\t}")
+            js.append("\t\t});\n")
+            js.append("\t\tpopupContent += '</table></div>';")
+            js.append("\t\tlayer.bindPopup(popupContent);")
+            js.append("\t}")
+        
+        js.append("});\n")
         
         js.append("if (typeof layerControl !== 'undefined') {")
         js.append(f"\tlayerControl.addOverlay(layer_{layer_id}, '{name}');")

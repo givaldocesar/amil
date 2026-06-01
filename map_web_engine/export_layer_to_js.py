@@ -1,6 +1,6 @@
 import os
 from qgis.core import *
-from ..tr import tr
+from ..utils.tr import tr
 
 def export_layer_to_js(layer_id, output_dir):
     layer = QgsProject.instance().mapLayer(layer_id)

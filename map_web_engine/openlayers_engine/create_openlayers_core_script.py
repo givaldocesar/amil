@@ -1,5 +1,5 @@
 import os
-from ...tr import tr
+from ...utils.tr import tr
 from ..save_script import save_script
 from ..get_layers_extension import get_layers_extension
 

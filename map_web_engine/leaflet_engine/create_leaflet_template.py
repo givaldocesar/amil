@@ -1,5 +1,5 @@
-import os, shutil
 from ..create_page_title import *
+from ..copy_engine import copy_engine
 from .create_leaflet_core_script import *
 from .create_leaflet_basemaps_script import *
 from .create_leaflet_layers_script import *
@@ -11,16 +11,7 @@ def create_leaflet_template(configs):
     if(configs["mode"] == "offline"):
         link_href = "leaflet/leaflet.css"
         script_src = "leaflet/leaflet.js"
-
-        output_dir = configs["output_dir"]
-
-        current_dir = os.path.dirname(__file__)
-        plugin_root = os.path.abspath(os.path.join(current_dir, '..', '..', '..'))
-        src_leaflet = os.path.join(plugin_root, 'assets', 'leaflet')
-        dst_leaflet = os.path.join(output_dir, 'leaflet')
-        
-        if not os.path.exists(dst_leaflet):
-            shutil.copytree(src_leaflet, dst_leaflet)
+        copy_engine(configs["output_dir"], 'leaflet')
 
     head_tags, title = create_page_title(configs["title"])
     

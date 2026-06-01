@@ -2,8 +2,8 @@
 import os, webbrowser
 from qgis.core import QgsProject, Qgis, QgsApplication
 from qgis.PyQt import uic
-from qgis.PyQt.QtCore import Qt, QSize, QVariant
-from PyQt5.QtGui import QColor
+from qgis.PyQt.QtCore import Qt, QSize
+from qgis.PyQt.QtGui import QColor
 from qgis.PyQt.QtWidgets import *
 from .utils import *
 

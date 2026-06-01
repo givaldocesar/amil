@@ -1,5 +1,6 @@
 import os
 from ..get_layers_extension import get_layers_extension
+from ..save_script import save_script
 
 def create_leaflet_core_script(configs):
     output_dir = configs.get("output_dir")
@@ -22,8 +23,6 @@ def create_leaflet_core_script(configs):
     js.append("\tcollapsed: false",)
     js.append("}).addTo(map);")
 
-    script_path = os.path.join(scripts_dir, "core.js")
-    with open(script_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(js))
+    save_script(scripts_dir, "core.js", js)
 
     return '<script src="scripts/core.js"></script>'

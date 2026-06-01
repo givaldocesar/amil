@@ -1,8 +1,8 @@
 import os
+from ..utils.tr import tr
 from .leaflet_engine import *
 from .openlayers_engine import *
 from .export_layer_to_js import *
-from ..tr import tr
 
 def map_web_engine(configs):
     """

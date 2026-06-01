@@ -1,5 +1,5 @@
 import os
-from ...tr import tr
+from ...utils.tr import tr
 from ..basemaps_providers import BASEMAP_PROVIDERS
 from ..save_script import save_script
 
