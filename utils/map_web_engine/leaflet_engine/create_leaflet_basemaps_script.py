@@ -3,6 +3,8 @@ from ...tr import tr
 from ..basemaps_providers import BASEMAP_PROVIDERS
 
 def create_leaflet_basemaps_script(configs):
+    if configs["mode"] == 'offline': return ''
+
     output_dir = configs.get("output_dir")
     basemaps =  configs.get("basemaps")
 

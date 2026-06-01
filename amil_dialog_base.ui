@@ -322,7 +322,7 @@
                       <string>Openlayers</string>
                      </property>
                      <property name="checked">
-                      <bool>true</bool>
+                      <bool>false</bool>
                      </property>
                     </widget>
                    </item>
@@ -338,6 +338,9 @@
                      </property>
                      <property name="text">
                       <string>Leaflet</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>
@@ -395,32 +398,11 @@
                    <string>Centro do Mapa</string>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_2">
-                   <item row="1" column="1">
-                    <widget class="QgsDoubleSpinBox" name="longitude">
-                     <property name="font">
-                      <font>
-                       <family>Arial</family>
-                       <pointsize>11</pointsize>
-                       <weight>50</weight>
-                       <bold>false</bold>
-                      </font>
-                     </property>
-                     <property name="decimals">
-                      <number>6</number>
-                     </property>
-                     <property name="minimum">
-                      <double>-180.000000000000000</double>
-                     </property>
-                     <property name="maximum">
-                      <double>180.000000000000000</double>
-                     </property>
-                     <property name="value">
-                      <double>-47.929200000000002</double>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="0" column="1">
                     <widget class="QgsDoubleSpinBox" name="latitude">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
                      <property name="font">
                       <font>
                        <family>Arial</family>
@@ -482,6 +464,51 @@
                      </property>
                      <property name="text">
                       <string>Longitude</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QgsDoubleSpinBox" name="longitude">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Arial</family>
+                       <pointsize>11</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="decimals">
+                      <number>6</number>
+                     </property>
+                     <property name="minimum">
+                      <double>-180.000000000000000</double>
+                     </property>
+                     <property name="maximum">
+                      <double>180.000000000000000</double>
+                     </property>
+                     <property name="value">
+                      <double>-47.929200000000002</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0" colspan="2">
+                    <widget class="QCheckBox" name="extent_to_layers">
+                     <property name="font">
+                      <font>
+                       <family>Arial</family>
+                       <pointsize>11</pointsize>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Centrar nas camadas do mapa</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>
@@ -670,15 +697,17 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="to_preview_btn">
-            <property name="minimumSize">
-             <size>
-              <width>128</width>
-              <height>24</height>
-             </size>
+           <widget class="QCheckBox" name="open_map">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
             </property>
             <property name="text">
-             <string>Preview</string>
+             <string>Abrir mapa ao exportar</string>
             </property>
            </widget>
           </item>
@@ -700,17 +729,218 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="preview_area">
+     <widget class="QWidget" name="layer_configs">
       <attribute name="title">
-       <string>Preview</string>
+       <string>Configurações das Camadas</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout"/>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="2" column="0" colspan="4">
+        <widget class="QGroupBox" name="attributes_area">
+         <property name="title">
+          <string>Atributos da Camada</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QScrollArea" name="attributes_scroll_area">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="attributes_contents">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>824</width>
+               <height>551</height>
+              </rect>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_5"/>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="layer_label">
+         <property name="text">
+          <string>Camada:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <spacer name="layer_spacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="current_layer">
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="4">
+        <widget class="QGroupBox" name="style_area">
+         <property name="title">
+          <string>Estilo da Camada</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="3" column="0">
+           <widget class="QLabel" name="radius_label">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Raio do Ponto</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="stroke_label">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Cor da Linha</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="fill_label">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Preenchimento</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QgsColorButton" name="stroke_button"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="stroke_width_label">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Espessura da Linha</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QgsDoubleSpinBox" name="radius_spin">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QgsColorButton" name="fill_button"/>
+          </item>
+          <item row="1" column="2">
+           <spacer name="style_spacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="1">
+           <widget class="QgsDoubleSpinBox" name="stroke_width_spin">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="sync_style_button">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>Sincronizar estilo com a camada do QGIS</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QgsColorButton</class>
+   <extends>QToolButton</extends>
+   <header>qgscolorbutton.h</header>
+  </customwidget>
   <customwidget>
    <class>QgsDoubleSpinBox</class>
    <extends>QDoubleSpinBox</extends>

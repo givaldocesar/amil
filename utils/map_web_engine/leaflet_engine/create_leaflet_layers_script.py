@@ -7,51 +7,100 @@ def create_leaflet_layers_script(configs):
     scripts_dir = os.path.join(output_dir, "scripts")
     os.makedirs(scripts_dir, exist_ok=True)
 
-    js = ["// --- LAYERS ---"]
+    layers_dir = os.path.join(scripts_dir, "layers")
+    os.makedirs(layers_dir, exist_ok=True)
+
     tags_html_data = []
 
     for layer in configs.get("layers"):
-        layer_id = layer.get("layer_id")
-        name = layer.get("layer_name")
-        is_point = layer.get("is_point", False)
-        is_polygon = layer.get("is_polygon", False)
+        js = []
+
+        #layer info
+        layer_id = layer.layer_id
+        name = layer.layer_name
         
-        style = layer.get("style", {})
-        stroke_color = style.get("stroke_color", "#3388ff")
-        stroke_width = style.get("stroke_width", 1.0)
-        fill_color = style.get("fill_color", "#3388ff")
-        radius = style.get("radius", 6.0)
+        # estilo
+        style = layer.style
+        stroke_color = style.stroke_color
+        stroke_width = style.stroke_width
+        fill_color = style.fill_color
+        radius = style.radius
 
+        # popup rules
+        popup_rules = []
+        for attribute_name, attribute_config in layer.attributes.items():
+            if attribute_config.export:
+                rule = f"\n\t{{name: '{attribute_name}', "
+                rule += f"is_float: {str(attribute_config.is_float).lower()}, "
+                rule += f"decimals: {attribute_config.decimals} }}"
+                popup_rules.append(rule)
+        
+        js_popup_rules = "[" + ",".join(popup_rules) + "\n]"
+
+        # Montando o JS
         js.append(tr("\n// Camada: {}").format(name))
-        js.append(f"const style_{layer_id} = {{")
-        js.append(f"\tcolor: '{stroke_color}',")
-        js.append(f"\tweight: {stroke_width},")
-        js.append(f"\topacity: 1.0,")
-        js.append(f"\tfillColor: '{fill_color}',")
-        js.append(f"\tfillOpacity: 0.6,")
-        js.append(f"\tradius: {radius}")
-        js.append("};\n")
+        js.append(f"map.createPane('pane_{layer_id}');")
+        js.append(f"map.getPane('pane_{layer_id}').style.zIndex = {layer.z_index};")
+        js.append(f"map.getPane('pane_{layer_id}').style.pointerEvents = 'none';\n")
 
+        # Regras POPUP
+        js.append(f"const popupRules_{layer_id} = {js_popup_rules};\n")
+        # camada
         js.append(f"const layer_{layer_id} = L.geoJSON(data_{layer_id}, {{")
-        if is_point:
-            js.append(f"\tpointToLayer: function(feature, latlng) {{")
-            js.append(f"\t\treturn L.circleMarker(latlng, style_{layer_id});")
-            js.append(f"\t}}")
-        else:
-            js.append(f"\tstyle: style_{layer_id}")
-        js.append(f"}}).addTo(map);\n")
+        js.append(f"\tpane: 'pane_{layer_id}',")
+        js.append("\tinteractive: true,")
+        js.append("\tstyle: function (feature) {")
+        js.append("\t\treturn{")
+        js.append(f"\t\t\tcolor: '{stroke_color}',")
+        js.append(f"\t\t\tfillColor: '{fill_color}',")
+        js.append(f"\t\t\tweight: {stroke_width},")
+        js.append("\t\t\topacity: 1,")
+        js.append("\t\t\tfillOpacity: 0.6")
+        js.append("\t\t};")
+        js.append("\t},")
 
-        js.append(f"if (typeof layerControl !== 'undefined') {{")
+        # configurações se é ponto
+        if layer.is_point:
+            js.append("\tpointToLayer: function(feature, latlng) {")
+            js.append("\t\treturn L.circleMarker(latlng, {")
+            js.append(f"\t\t\tradius: {radius},")
+            js.append(f"\t\t\tcolor: '{stroke_color}',")
+            js.append(f"\t\t\tfillColor: '{fill_color}',")
+            js.append(f"\t\t\tweight: {stroke_width},")
+            js.append("\t\t\topacity: 1,")
+            js.append("\t\t\tfillOpacity: 0.6")
+            js.append("\t\t});")
+            js.append("\t},")
+
+        #construido o popup dinâmico
+        js.append("\tonEachFeature: function (feature, layer) {")
+        js.append(f'''\t\tlet popupContent = '<div class="amil-popup"><b>{name}</b><hr><table style="width:100%; text-align:left;">';\n''')
+        js.append(f"\t\tpopupRules_{layer_id}.forEach(function(rule) {{")
+        js.append("\t\t\tlet value = feature.properties[rule.name];\n")
+        js.append("\t\t\tif (value !== null && value !== undefined) {")
+        js.append("\t\t\t\tif (rule.is_float && typeof value === 'number') {")
+        js.append("\t\t\t\t\tvalue = value.toFixed(rule.decimals);")
+        js.append("\t\t\t\t};\n")
+        js.append("\t\t\t\tpopupContent += '<tr><th>' + rule.name + ':</th><td>' + value + '</td></tr>';")
+        js.append("\t\t\t}")
+        js.append("\t\t});\n")
+        js.append("\t\tpopupContent += '</table></div>';")
+        js.append("\t\tlayer.bindPopup(popupContent);")
+        js.append("\t}});\n")
+        
+        js.append("if (typeof layerControl !== 'undefined') {")
         js.append(f"\tlayerControl.addOverlay(layer_{layer_id}, '{name}');")
-        js.append(f"}}")
+        js.append("}\n")
+
+        js.append(f"map.addLayer(layer_{layer_id});")
+
+        js_path = os.path.join(layers_dir, f"{layer_id}.js")
+        with open(js_path, "w", encoding="utf-8") as file:
+            file.write("\n".join(js))
         
         tags_html_data.append(f'<script src="data/{layer_id}.js"></script>')
-
-    js_path = os.path.join(scripts_dir, "layers.js")
-    with open(js_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(js))
+        tags_html_data.append(f'<script src="scripts/layers/{layer_id}.js"></script>')
 
     all_tags = "\n".join(tags_html_data)
-    all_tags += '\n<script src="scripts/layers.js"></script>'
     
     return all_tags

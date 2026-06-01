@@ -1,31 +1,25 @@
-def create_openlayers_template(basemaps):    
+from ..create_page_title import create_page_title
+from .create_openlayers_core_script import create_openlayers_core_script
+from .create_openlayers_basemaps_script import create_openlayers_basemaps_script
+
+
+def create_openlayers_template(configs):    
+    head_tags, title = create_page_title(configs["title"])
+    
     html = f"""<!DOCTYPE html>
     <html>
     <head>
-        <title>Amil WebGIS - OpenLayers</title>
+        <title>{configs['title']}</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v8.2.0/ol.css" />
         <script src="https://cdn.jsdelivr.net/npm/ol@v8.2.0/dist/ol.js"></script>
-        <style>
-            html, body, #map {{ width: 100%; height: 100%; margin: 0; padding: 0; }}
-        </style>
+        { head_tags }
     </head>
     <body>
+        { title }
         <div id="map"></div>
-        <script>
-            // Inicializa o mapa em OpenLayers
-            var map = new ol.Map({{
-                target: 'map',
-                layers: [
-                    new ol.layer.Tile({{ source: new ol.source.OSM() }})
-                ],
-                view: new ol.view.View({{
-                    center: ol.proj.fromLonLat([-47.9292, -15.7801]),
-                    zoom: 4
-                }})
-            }});
-            console.log("Mapas base selecionados: {basemaps}");
-        </script>
+        { create_openlayers_core_script(configs) }
+        { create_openlayers_basemaps_script(configs) }
     </body>
     </html>"""
 

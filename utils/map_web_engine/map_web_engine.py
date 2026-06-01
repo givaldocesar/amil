@@ -12,7 +12,6 @@ def map_web_engine(configs):
 
     output_dir = configs.get("output_dir")
     engine = configs.get("engine", "openlayers")
-    mode = configs.get("modo", "online")
     layers = configs.get("layers", [])
     
     # 1. Validação básica da pasta
@@ -24,16 +23,15 @@ def map_web_engine(configs):
         os.makedirs(output_dir, exist_ok=True)
 
     for layer in layers:
-        layer_id = layer.get("layer_id")
-        name = layer.get("name")
+        layer_id = layer.layer_id
+        name = layer.layer_name
         success = export_layer_to_js(layer_id, output_dir)
         if not success:
             print(tr("Falha ao processar os dados da camada {}.").format(name))
 
     html = ""
     if engine == "openlayers":
-        pass
-        #html = create_openlayers_template(basemaps)
+        html = create_openlayers_template(configs)
     else:
         html = create_leaflet_template(configs)
 

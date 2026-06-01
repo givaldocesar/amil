@@ -24,9 +24,10 @@ class Amil:
             QCoreApplication.installTranslator(self.translator)
 
         self.actions = []
-        self.menu = self.tr(u'&Assistente de Mapa Interativo Leaflet')
+        self.menu = self.tr(u'&Aplicação para Mapas Interativos Locais')
 
         self.first_start = None
+        self.dlg = None
 
     def tr(self, message):
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
@@ -71,7 +72,7 @@ class Amil:
         icon_path = ':/plugins/amil/icon.png'
         self.add_action(
             icon_path,
-            text=self.tr(u'Assitende de Mapa Leaflet'),
+            text=self.tr(u'Aplicação para Mapas Interativos Locais'),
             callback=self.run,
             parent=self.iface.mainWindow())
 
@@ -80,15 +81,16 @@ class Amil:
     def unload(self):
         for action in self.actions:
             self.iface.removePluginWebMenu(
-                self.tr(u'&Assistente de Mapa Interativo Leaflet'),
+                self.tr(u'&Aplicação para Mapas Interativos Locais'),
                 action)
             self.iface.removeToolBarIcon(action)
 
 
     def run(self):
-        if self.first_start == True:
-            self.first_start = False
+        if self.dlg is None:
             self.dlg = AmilDialog(self.iface)
-       
+        
         self.dlg.show()
-        self.dlg.sync_layers()
+        self.dlg.showNormal()
+        self.dlg.raise_()
+        self.dlg.activateWindow()
