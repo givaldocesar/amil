@@ -18,6 +18,13 @@ def create_openlayers_layers_script(configs):
         #layer info
         layer_id = layer.layer_id
         name = layer.layer_name
+
+        if layer.is_point:
+            geom_type = 'Point'
+        elif layer.is_line: 
+            geom_type = 'Line'
+        else:
+            geom_type = 'Polygon'
         
         # estilo
         style = layer.style
@@ -56,6 +63,9 @@ def create_openlayers_layers_script(configs):
         js.append(f"\ttitle: '{name}',")
         js.append(f"\tzIndex: {layer.z_index},")
         js.append(f"\tstyle: style_{layer_id},")
+        js.append(f"\tgeomType: '{geom_type}',")
+        js.append(f"\tfillColor: '{fill_color}',")
+        js.append(f"\tstrokeColor: '{stroke_color}',")
         js.append("\tsource: new ol.source.Vector({")
         js.append(f"\t\tfeatures: new ol.format.GeoJSON().readFeatures(data_{layer_id}, {{")
         js.append("\t\t\tdataProjection: 'EPSG:4326',")

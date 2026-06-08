@@ -18,9 +18,8 @@ def create_openlayers_template(configs):
     head_tags, title = create_page_title(configs["title"])
     
     html = f"""<!DOCTYPE html>
-    <html>
+<html>
     <head>
-        <title>{configs['title']}</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="{link_href}"/>
         <script src="{script_src}"></script>
@@ -35,6 +34,6 @@ def create_openlayers_template(configs):
         { create_openlayers_layers_script(configs) }
         { create_openlayers_legend_script(configs) }
     </body>
-    </html>"""
+</html>"""
 
     return html

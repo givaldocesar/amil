@@ -233,7 +233,7 @@ class AmilDialog(QDialog, FORM_CLASS):
         engine = "openlayers" if self.openlayers.isChecked() else "leaflet"
         mode = "offline" if self.offline.isChecked() else "online"
         output_dir = self.output_dir.text()
-        title = self.page_title.text() or QgsProject.instance().baseName() 
+        title = self.page_title.text()
         
         basemaps = []
 

@@ -1,6 +1,6 @@
 def create_page_title(title):
     head_tags = f"""
-    <title>{title or "Amil WebGIS - Leaflet"}</title>
+    <title>{title if title else "Amil WebGIS"}</title>
     <style>
         html, body {{ 
             width: 100%; 
@@ -34,10 +34,12 @@ def create_page_title(title):
         }}
     </style>
     """
+    body_tags = ""
 
-    body_tags = f"""
-    <div id="map-header">
-        <h1>{title}</h1>
-    </div>"""
+    if title:
+        body_tags = f"""
+        <div id="map-header">
+            <h1>{title}</h1>
+        </div>"""
     
     return head_tags, body_tags
