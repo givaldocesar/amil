@@ -34,7 +34,7 @@ def export_layer_to_js(layer_id, output_dir):
         with open(gjson_temp_path, "r", encoding="utf-8") as f:
             geojson_data = f.read()
 
-        js_content = f"var data_{layer_id} = {geojson_data};\n"
+        js_content = f"const data_{layer_id} = {geojson_data};\n"
         
         with open(js, "w", encoding="utf-8") as f:
             f.write(js_content)

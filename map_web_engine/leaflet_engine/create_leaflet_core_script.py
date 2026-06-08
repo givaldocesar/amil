@@ -20,7 +20,7 @@ def create_leaflet_core_script(configs):
     js.append("map.getPane('popupPane').style.zIndex = 2000;")
 
     js.append("const layerControl = L.control.layers(null, {}, {",)
-    js.append("\tcollapsed: false",)
+    js.append("\tcollapsed: true",)
     js.append("}).addTo(map);")
 
     save_script(scripts_dir, "core.js", js)

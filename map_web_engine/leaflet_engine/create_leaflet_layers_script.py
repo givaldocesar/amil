@@ -1,5 +1,6 @@
 import os
 from ...utils.tr import tr
+from ..save_script import save_script
 
 def create_leaflet_layers_script(configs):
     output_dir = configs.get("output_dir")
@@ -99,10 +100,7 @@ def create_leaflet_layers_script(configs):
 
         js.append(f"map.addLayer(layer_{layer_id});")
 
-        js_path = os.path.join(layers_dir, f"{layer_id}.js")
-        with open(js_path, "w", encoding="utf-8") as file:
-            file.write("\n".join(js))
-        
+        save_script(layers_dir, f"{layer_id}.js", js)
         tags_html_data.append(f'<script src="data/{layer_id}.js"></script>')
         tags_html_data.append(f'<script src="scripts/layers/{layer_id}.js"></script>')
 
