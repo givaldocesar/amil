@@ -1,28 +1,28 @@
 [general]
 name=AMIL-Aplicação para Mapas Interativos Locais
-qgisMinimumVersion=3.10
-description=Um assistente para criar mapas interativos no navegador utilizando Leaflet/Openlayers
-version=2.0
+qgisMinimumVersion=3.40
+description=An assistant to create interactive maps in the browser using Leaflet and OpenLayers.
+version=2.0.0
 author=Givaldo Cavalcanti
 email=givaldocesar@live.com
 
-about=Cria mapas interativos que podem ser abertos no navegador através das camadas vetoriais disponíveis.
-	É possivel alterar cores e traços da simbologia, rótulos de atributos.
-	Ao final do processamento, o complemento gerará uma pasta com os arquivos necessários para exibição em qualquer navegador.
+about=Creates interactive maps that can be opened in the browser using the available vector layers. It is possible to change colors, stroke symbology, and attribute labels. At the end of the processing, the plugin will generate a folder with all the necessary files for display in any web browser.
 
 tracker=https://github.com/givaldocesar/amil
 repository=https://github.com/givaldocesar/amil
 
 hasProcessingProvider=no
 changelog=
-	1.1.1 -	Correção de pequenos erros e bugs.
+	2.0 - Major update: Added OpenLayers web engine support. Introduced collapsible interactive legends, attribute decimal rounding, and a refactored popup overlay system.
 
-	1.1 - 	Correção do erro de exportação de camadas que possuiam simbologia diferente de símbolo simples. Adição de uma barra de status, barra de progresso e notificações de push.
+	1.1.1 -	Minor bug fixes and error corrections.
+
+	1.1 - 	Fixed an export error for layers with symbology other than simple symbols. Added a status bar, progress bar, and push notifications.
 			
-	1.0 - 	Versão Estável.
+	1.0 - 	Stable version release.
 			
 
-tags=python leaflet openlayers browser maps
+tags=python leaflet openlayers browser maps webgis
 
 homepage=https://github.com/givaldocesar/amil
 category=Web

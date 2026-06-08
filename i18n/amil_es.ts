@@ -4,57 +4,85 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../utils/map_web_engine/map_web_engine.py" line="20"/>
+        <location filename="../map_web_engine/map_web_engine.py" line="19"/>
         <source>Erro: Nenhuma pasta de saída foi selecionada.</source>
         <translation>Error: No se ha seleccionado ninguna carpeta de salida.</translation>
     </message>
     <message>
-        <location filename="../utils/map_web_engine/map_web_engine.py" line="31"/>
+        <location filename="../map_web_engine/map_web_engine.py" line="30"/>
         <source>Falha ao processar os dados da camada {}.</source>
         <translation>Error al procesar los datos de la capa {}.</translation>
     </message>
     <message>
-        <location filename="../utils/map_web_engine/map_web_engine.py" line="44"/>
+        <location filename="../map_web_engine/map_web_engine.py" line="42"/>
         <source>Sucesso! Mapa Web gerado em: {}</source>
         <translation>¡Éxito! Mapa Web generado en: {}</translation>
     </message>
     <message>
-        <location filename="../utils/map_web_engine/export_layer_to_js.py" line="9"/>
+        <location filename="../map_web_engine/export_layer_to_js.py" line="9"/>
         <source>Aviso: Camada {} não encontrada no projeto.</source>
         <translation>Advertencia: Capa {} no encontrada en el proyecto.</translation>
     </message>
     <message>
-        <location filename="../utils/map_web_engine/export_layer_to_js.py" line="45"/>
+        <location filename="../map_web_engine/export_layer_to_js.py" line="45"/>
         <source>Erro ao exportar a camada {layer_name}: {error}</source>
         <translation>Error al exportar la capa {layer_name}: {error}</translation>
     </message>
     <message>
-        <location filename="../utils/map_web_engine/leaflet_engine/create_leaflet_basemaps_script.py" line="12"/>
+        <location filename="../map_web_engine/openlayers_engine/create_openlayers_basemaps_script.py" line="16"/>
         <source>//--- Definições de Mapas Base---</source>
         <translation>//--- Definiciones de Mapas Base ---</translation>
     </message>
     <message>
-        <location filename="../utils/map_web_engine/leaflet_engine/create_leaflet_layers_script.py" line="25"/>
+        <location filename="../map_web_engine/leaflet_engine/create_leaflet_layers_script.py" line="41"/>
         <source>
 // Camada: {}</source>
         <translation>
 // Capa: {}</translation>
     </message>
+    <message>
+        <location filename="../utils/create_attributes_row.py" line="10"/>
+        <source>Ordenável</source>
+        <translation>Ordenable</translation>
+    </message>
+    <message>
+        <location filename="../utils/create_attributes_row.py" line="15"/>
+        <source>Filtrável</source>
+        <translation>Filtrable</translation>
+    </message>
+    <message>
+        <location filename="../utils/create_attributes_row.py" line="21"/>
+        <source>Decimais:</source>
+        <translation>Decimales:</translation>
+    </message>
+</context>
+<context>
+    <name>Amil</name>
+    <message>
+        <location filename="../amil.py" line="83"/>
+        <source>&amp;Aplicação para Mapas Interativos Locais</source>
+        <translation>&amp;Aplicación para Mapas Interactivos Locales</translation>
+    </message>
+    <message>
+        <location filename="../amil.py" line="73"/>
+        <source>Aplicação para Mapas Interativos Locais</source>
+        <translation>Aplicación para Mapas Interactivos Locales</translation>
+    </message>
 </context>
 <context>
     <name>AmilDialog</name>
     <message>
-        <location filename="../amil_dialog.py" line="103"/>
+        <location filename="../amil_dialog.py" line="177"/>
         <source>Selecionar Diretório de Saída</source>
         <translation>Seleccionar Directorio de Salida</translation>
     </message>
     <message>
-        <location filename="../amil_dialog.py" line="154"/>
+        <location filename="../amil_dialog.py" line="284"/>
         <source>Aviso</source>
         <translation>Advertencia</translation>
     </message>
     <message>
-        <location filename="../amil_dialog.py" line="151"/>
+        <location filename="../amil_dialog.py" line="281"/>
         <source>Por favor, selecione um diretório de saída válido.</source>
         <translation>Por favor, seleccione un directorio de salida válido.</translation>
     </message>
@@ -64,132 +92,132 @@
     <message>
         <location filename="../amil_dialog_base.ui" line="32"/>
         <source>Assistente de Mapa Interativo Leaflet (v2.0)</source>
-        <translation>Assistente de Mapa Interativo Leaflet (v2.0)</translation>
+        <translation type="obsolete">Assistente de Mapa Interativo Leaflet (v2.0)</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="59"/>
         <source>Configurações Gerais</source>
-        <translation>Configuraciones Generales</translation>
+        <translation type="obsolete">Configuraciones Generales</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="76"/>
         <source>Camadas (Ordem de Exibição)</source>
-        <translation>Capas (Orden de Visualización)</translation>
+        <translation type="obsolete">Capas (Orden de Visualización)</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="178"/>
         <source>Marca Tudo</source>
-        <translation>Marcar Todo</translation>
+        <translation type="obsolete">Marcar Todo</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="193"/>
         <source>Desmarcar Tudo</source>
-        <translation>Desmarcar Todo</translation>
+        <translation type="obsolete">Desmarcar Todo</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="217"/>
         <source>Saída:</source>
-        <translation>Salida:</translation>
+        <translation type="obsolete">Salida:</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="244"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="254"/>
         <source>Título do Mapa</source>
-        <translation>Título del Mapa</translation>
+        <translation type="obsolete">Título del Mapa</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="266"/>
         <source>Web Engine</source>
-        <translation>Web Engine</translation>
+        <translation type="obsolete">Web Engine</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="280"/>
         <source>Openlayers</source>
-        <translation>OpenLayers</translation>
+        <translation type="obsolete">OpenLayers</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="298"/>
         <source>Leaflet</source>
-        <translation>Leaflet</translation>
+        <translation type="obsolete">Leaflet</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="308"/>
         <source>Disponibilidade</source>
-        <translation>Disponibilidad</translation>
+        <translation type="obsolete">Disponibilidad</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="322"/>
         <source>Online</source>
-        <translation>Online</translation>
+        <translation type="obsolete">Online</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="340"/>
         <source>Offline</source>
-        <translation>Offline</translation>
+        <translation type="obsolete">Offline</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="353"/>
         <source>Centro do Mapa</source>
-        <translation>Centro del Mapa</translation>
+        <translation type="obsolete">Centro del Mapa</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="421"/>
         <source>Latitude</source>
-        <translation>Latitud</translation>
+        <translation type="obsolete">Latitud</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="442"/>
         <source>Longitude</source>
-        <translation>Longitud</translation>
+        <translation type="obsolete">Longitud</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="460"/>
         <source>Camadas de Base</source>
-        <translation>Mapas Base</translation>
+        <translation type="obsolete">Mapas Base</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="474"/>
         <source>Google Satellite</source>
-        <translation>Google Satellite</translation>
+        <translation type="obsolete">Google Satellite</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="495"/>
         <source>Google Hybrid</source>
-        <translation>Google Hybrid</translation>
+        <translation type="obsolete">Google Hybrid</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="516"/>
         <source>Google Terrain</source>
-        <translation>Google Terrain</translation>
+        <translation type="obsolete">Google Terrain</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="531"/>
         <source>OpenStreet Map</source>
-        <translation>OpenStreetMap</translation>
+        <translation type="obsolete">OpenStreetMap</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="549"/>
         <source>Esri World Imagery</source>
-        <translation>Esri World Imagery</translation>
+        <translation type="obsolete">Esri World Imagery</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="564"/>
         <source>CartoDB Positron</source>
-        <translation>CartoDB Positron</translation>
+        <translation type="obsolete">CartoDB Positron</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="644"/>
         <source>Preview</source>
-        <translation>Vista Previa</translation>
+        <translation type="obsolete">Vista Previa</translation>
     </message>
     <message>
         <location filename="../amil_dialog_base.ui" line="633"/>
         <source>Exportar</source>
-        <translation>Exportar</translation>
+        <translation type="obsolete">Exportar</translation>
     </message>
 </context>
 </TS>

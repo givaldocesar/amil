@@ -1,4 +1,4 @@
-import os
+import os, json
 from ..save_script import save_script
 
 def create_openlayers_layers_script(configs):
@@ -33,6 +33,14 @@ def create_openlayers_layers_script(configs):
         fill_color = style.fill_color
         radius = style.radius
 
+        #decimals rules
+        decimals_rules = {}
+        for name_attr, config_attr in layer.attributes.items():
+            if config_attr.export and config_attr.is_float:
+                decimals_rules[name_attr] = config_attr.decimals
+                
+        decimals_rules_js = json.dumps(decimals_rules)
+
         # ESTILO DA CAMADA
         if layer.is_point:
             js.append(f"const style_{layer_id} = new ol.style.Style({{")
@@ -66,6 +74,7 @@ def create_openlayers_layers_script(configs):
         js.append(f"\tgeomType: '{geom_type}',")
         js.append(f"\tfillColor: '{fill_color}',")
         js.append(f"\tstrokeColor: '{stroke_color}',")
+        js.append(f"\tattributesConfig: {decimals_rules_js},")
         js.append("\tsource: new ol.source.Vector({")
         js.append(f"\t\tfeatures: new ol.format.GeoJSON().readFeatures(data_{layer_id}, {{")
         js.append("\t\t\tdataProjection: 'EPSG:4326',")
